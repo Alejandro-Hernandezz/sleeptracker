@@ -293,4 +293,59 @@
         </LinearLayout>
     </ScrollView>
 
+    <!-- Footer con controles -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
+
+        <!-- Timestamp -->
+        <TextView
+            android:id="@+id/tvUltimaActualizacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Última actualización: --:--:--"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Botón de Alarma -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Control de Alarma"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAlarma"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="🔔 Activar Alarma"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/teal"
+                    app:cornerRadius="8dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
 </LinearLayout>
