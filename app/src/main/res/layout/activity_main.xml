@@ -25,7 +25,7 @@
             android:layout_marginBottom="8dp" />
 
         <TextView
-            android:id="@+id/tv_estado"
+            android:id="@+id/tvEstado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Conectando..."
@@ -83,7 +83,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tv_aceleracion"
+                        android:id="@+id/tvAceleracion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0.00 g"
@@ -132,7 +132,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tv_temperatura"
+                        android:id="@+id/tvTemperatura"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0.0 °C"
@@ -181,7 +181,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tv_humedad"
+                        android:id="@+id/tvHumedad"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0.0 %"
@@ -230,7 +230,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tv_pulso"
+                        android:id="@+id/tvPulso"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0 BPM"
@@ -279,7 +279,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tv_luz"
+                        android:id="@+id/tvLuz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0 %"
