@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.example.sleeptracker.model.SleepAnalyzer
+import com.example.sleeptracker.model.SleepLevel
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
@@ -15,12 +18,19 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "SleepTracker"
     }
 
-    // UI Elements
+    // UI Elements - Sensores
     private lateinit var tvTemperatura: TextView
     private lateinit var tvHumedad: TextView
     private lateinit var tvPulso: TextView
     private lateinit var tvAceleracion: TextView
     private lateinit var tvLuz: TextView
+    
+    // UI Elements - Sleep Quality
+    private lateinit var tvSleepScore: TextView
+    private lateinit var tvSleepLevel: TextView
+    private lateinit var tvSleepRecommendation: TextView
+    
+    // UI Elements - Estado
     private lateinit var tvEstado: TextView
     private lateinit var tvUltimaActualizacion: TextView
     private lateinit var btnAlarma: MaterialButton
@@ -50,11 +60,19 @@ class MainActivity : AppCompatActivity() {
      * Inicializar elementos de la interfaz
      */
     private fun initializeUI() {
+        // Sensores
         tvTemperatura = findViewById(R.id.tvTemperatura)
         tvHumedad = findViewById(R.id.tvHumedad)
         tvPulso = findViewById(R.id.tvPulso)
         tvAceleracion = findViewById(R.id.tvAceleracion)
         tvLuz = findViewById(R.id.tvLuz)
+        
+        // Sleep Quality
+        tvSleepScore = findViewById(R.id.tvSleepScore)
+        tvSleepLevel = findViewById(R.id.tvSleepLevel)
+        tvSleepRecommendation = findViewById(R.id.tvSleepRecommendation)
+        
+        // Estado
         tvEstado = findViewById(R.id.tvEstado)
         tvUltimaActualizacion = findViewById(R.id.tvUltimaActualizacion)
         btnAlarma = findViewById(R.id.btnAlarma)
@@ -85,12 +103,12 @@ class MainActivity : AppCompatActivity() {
             // Escuchar estado de alarma
             setupAlarmListener()
 
-            updateStatus("Conectado a Firebase")
+            updateStatus("Conectado a Firebase", isConnected = true)
             Log.d(TAG, "Firebase inicializado correctamente")
 
         } catch (e: Exception) {
             Log.e(TAG, "Error inicializando Firebase", e)
-            updateStatus("Error: ${e.message}")
+            updateStatus("Error: ${e.message}", isConnected = false)
         }
     }
 
@@ -108,6 +126,7 @@ class MainActivity : AppCompatActivity() {
                             temperatura = temp.toFloat()
                             updateTemperatureUI()
                             updateLastUpdate()
+                            analyzeSleepQuality()
                         }
                     }
                 } catch (e: Exception) {
@@ -130,6 +149,7 @@ class MainActivity : AppCompatActivity() {
                             humedad = hum.toFloat()
                             updateHumidityUI()
                             updateLastUpdate()
+                            analyzeSleepQuality()
                         }
                     }
                 } catch (e: Exception) {
@@ -152,6 +172,7 @@ class MainActivity : AppCompatActivity() {
                             pulso = bpm.toInt()
                             updatePulseUI()
                             updateLastUpdate()
+                            analyzeSleepQuality()
                         }
                     }
                 } catch (e: Exception) {
@@ -174,6 +195,7 @@ class MainActivity : AppCompatActivity() {
                             aceleracion = acel.toFloat()
                             updateAccelerationUI()
                             updateLastUpdate()
+                            analyzeSleepQuality()
                         }
                     }
                 } catch (e: Exception) {
@@ -196,6 +218,7 @@ class MainActivity : AppCompatActivity() {
                             luz = luzValue.toInt()
                             updateLightUI()
                             updateLastUpdate()
+                            analyzeSleepQuality()
                         }
                     }
                 } catch (e: Exception) {
@@ -253,80 +276,95 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateStatus(message: String) {
+    private fun updateStatus(message: String, isConnected: Boolean = true) {
         runOnUiThread {
             tvEstado.text = message
+            val color = if (isConnected) R.color.status_connected else R.color.status_error
+            tvEstado.setTextColor(ContextCompat.getColor(this, color))
+        }
+    }
+
+    // ========== ANÁLISIS DE CALIDAD DE SUEÑO ==========
+
+    private fun analyzeSleepQuality() {
+        runOnUiThread {
+            try {
+                val quality = SleepAnalyzer.analyze(
+                    temperatura, humedad, pulso, aceleracion, luz
+                )
+
+                // Actualizar score
+                tvSleepScore.text = quality.score.toString()
+
+                // Actualizar nivel con color
+                val (levelText, levelColor) = when (quality.level) {
+                    SleepLevel.EXCELLENT -> "Excelente" to R.color.sleep_excellent
+                    SleepLevel.GOOD -> "Bueno" to R.color.sleep_good
+                    SleepLevel.FAIR -> "Regular" to R.color.sleep_fair
+                    SleepLevel.POOR -> "Pobre" to R.color.sleep_poor
+                }
+                
+                tvSleepLevel.text = levelText
+                tvSleepLevel.setTextColor(ContextCompat.getColor(this, levelColor))
+                tvSleepScore.setTextColor(ContextCompat.getColor(this, levelColor))
+
+                // Actualizar recomendación
+                tvSleepRecommendation.text = quality.recommendation
+
+            } catch (e: Exception) {
+                Log.e(TAG, "Error analizando calidad de sueño", e)
+            }
         }
     }
 
     // ========== MÉTODOS PARA OBTENER COLORES ==========
 
-    /**
-     * Color dinámico para temperatura
-     * Azul (frío) → Verde (normal) → Rojo (caliente)
-     */
     private fun getColorForTemperature(temp: Float): Int {
-        return when {
-            temp < 18 -> 0xFF0080FF.toInt() // Azul
-            temp < 25 -> 0xFF00CC00.toInt() // Verde
-            else -> 0xFFFF0000.toInt()      // Rojo
-        }
+        return ContextCompat.getColor(this, when {
+            temp < 16f -> R.color.temp_cold
+            temp < 22f -> R.color.temp_optimal
+            temp < 26f -> R.color.temp_warm
+            else -> R.color.temp_hot
+        })
     }
 
-    /**
-     * Color dinámico para humedad
-     * Rojo (seco) → Verde (normal) → Azul (húmedo)
-     */
     private fun getColorForHumidity(hum: Float): Int {
-        return when {
-            hum < 30 -> 0xFFFF0000.toInt()  // Rojo
-            hum < 70 -> 0xFF00CC00.toInt()  // Verde
-            else -> 0xFF0080FF.toInt()      // Azul
-        }
+        return ContextCompat.getColor(this, when {
+            hum < 30f -> R.color.humidity_dry
+            hum < 70f -> R.color.humidity_optimal
+            else -> R.color.humidity_wet
+        })
     }
 
-    /**
-     * Color dinámico para pulso
-     * Azul (bajo) → Verde (normal) → Amarillo (elevado) → Rojo (muy elevado)
-     */
     private fun getColorForPulse(bpm: Int): Int {
-        return when {
-            bpm < 60 -> 0xFF0080FF.toInt()  // Azul
-            bpm < 100 -> 0xFF00CC00.toInt() // Verde
-            bpm < 130 -> 0xFFFFCC00.toInt() // Amarillo
-            else -> 0xFFFF0000.toInt()      // Rojo
-        }
+        return ContextCompat.getColor(this, when {
+            bpm < 55 -> R.color.heart_low
+            bpm < 85 -> R.color.heart_optimal
+            bpm < 110 -> R.color.heart_elevated
+            else -> R.color.heart_high
+        })
     }
 
-    /**
-     * Color dinámico para aceleración
-     * Verde (quieto) → Amarillo (movimiento) → Rojo (mucho movimiento)
-     */
     private fun getColorForAcceleration(acel: Float): Int {
-        return when {
-            acel < 1.0 -> 0xFF00CC00.toInt() // Verde
-            acel < 1.5 -> 0xFFFFCC00.toInt() // Amarillo
-            else -> 0xFFFF0000.toInt()       // Rojo
-        }
+        return ContextCompat.getColor(this, when {
+            acel < 0.5f -> R.color.movement_still
+            acel < 1.0f -> R.color.movement_low
+            acel < 1.5f -> R.color.movement_moderate
+            else -> R.color.movement_high
+        })
     }
 
-    /**
-     * Color dinámico para luz
-     * Azul (oscuro) → Verde (normal) → Amarillo (claro)
-     */
     private fun getColorForLight(luz: Int): Int {
-        return when {
-            luz < 30 -> 0xFF0080FF.toInt()  // Azul
-            luz < 70 -> 0xFF00CC00.toInt()  // Verde
-            else -> 0xFFFFCC00.toInt()      // Amarillo
-        }
+        return ContextCompat.getColor(this, when {
+            luz < 20 -> R.color.light_dark
+            luz < 50 -> R.color.light_dim
+            luz < 80 -> R.color.light_moderate
+            else -> R.color.light_bright
+        })
     }
 
     // ========== CONTROL DE ALARMA ==========
 
-    /**
-     * Escuchar cambios en el estado de la alarma desde Firebase
-     */
     private fun setupAlarmListener() {
         refControl.child("alarma").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -346,9 +384,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    /**
-     * Alternar estado de la alarma
-     */
     private fun toggleAlarma() {
         alarmaActiva = !alarmaActiva
 
@@ -365,17 +400,14 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    /**
-     * Actualizar UI del botón de alarma
-     */
     private fun updateAlarmUI() {
         runOnUiThread {
             if (alarmaActiva) {
-                btnAlarma.text = "🔕 Desactivar Alarma"
-                btnAlarma.setBackgroundColor(0xFFFF0000.toInt()) // Rojo
+                btnAlarma.text = "Desactivar Alarma"
+                btnAlarma.setBackgroundColor(ContextCompat.getColor(this, R.color.alarm_active))
             } else {
-                btnAlarma.text = "🔔 Activar Alarma"
-                btnAlarma.setBackgroundColor(0xFF00CC88.toInt()) // Verde/Teal
+                btnAlarma.text = "Activar Alarma"
+                btnAlarma.setBackgroundColor(ContextCompat.getColor(this, R.color.alarm_inactive))
             }
         }
     }
