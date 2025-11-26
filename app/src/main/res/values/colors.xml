@@ -1,96 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ========== COLORES PRIMARIOS ========== -->
-    <color name="primary_color">#667EEA</color>
-    <color name="primary_dark">#5568D3</color>
-    <color name="accent_color">#FF6B6B</color>
+    <!-- ========== TEMA PRINCIPAL - Material Design 3 ========== -->
+    <!-- Paleta de colores profesional basada en tonos nocturnos -->
 
-    <!-- ========== COLORES NEUTROS ========== -->
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="light_gray">#F5F5F5</color>
-    <color name="dark_gray">#333333</color>
-    <color name="medium_gray">#999999</color>
+    <!-- Primarios - Azul profundo/Índigo (tema nocturno) -->
+    <color name="primary">#1E3A8A</color>          <!-- Azul profundo principal -->
+    <color name="primaryDark">#1E293B</color>      <!-- Azul oscuro para header -->
+    <color name="primaryLight">#3B82F6</color>     <!-- Azul brillante para acentos -->
+    <color name="onPrimary">#FFFFFF</color>        <!-- Texto sobre primary -->
 
-    <!-- ========== TEMPERATURA ========== -->
-    <!-- Frío (< 18°C) - Azul -->
-    <color name="temp_cold">#0080FF</color>
-    <!-- Normal (18-25°C) - Verde -->
-    <color name="temp_normal">#00CC00</color>
-    <!-- Caliente (> 25°C) - Rojo -->
-    <color name="temp_hot">#FF0000</color>
+    <!-- Secundarios - Verde azulado (calma) -->
+    <color name="secondary">#06B6D4</color>        <!-- Cyan/turquesa -->
+    <color name="secondaryDark">#0891B2</color>    <!-- Cyan oscuro -->
+    <color name="secondaryLight">#22D3EE</color>   <!-- Cyan claro -->
+    <color name="onSecondary">#FFFFFF</color>      <!-- Texto sobre secondary -->
 
-    <!-- ========== HUMEDAD ========== -->
-    <!-- Seco (< 30%) - Rojo -->
-    <color name="humidity_dry">#FF0000</color>
-    <!-- Normal (30-70%) - Verde -->
-    <color name="humidity_normal">#00CC00</color>
-    <!-- Húmedo (> 70%) - Azul -->
-    <color name="humidity_wet">#0080FF</color>
+    <!-- Superficie y fondos -->
+    <color name="background">#F8FAFC</color>       <!-- Gris muy claro (casi blanco) -->
+    <color name="surface">#FFFFFF</color>          <!-- Blanco puro para cards -->
+    <color name="surfaceVariant">#F1F5F9</color>   <!-- Gris claro para variantes -->
+    <color name="onBackground">#1E293B</color>     <!-- Texto sobre background -->
+    <color name="onSurface">#334155</color>        <!-- Texto sobre surface -->
 
-    <!-- ========== PULSO CARDÍACO ========== -->
-    <!-- Bradicardia (< 60 BPM) - Azul -->
-    <color name="pulse_low">#0080FF</color>
-    <!-- Normal (60-100 BPM) - Verde -->
-    <color name="pulse_normal">#00CC00</color>
-    <!-- Elevado (100-130 BPM) - Amarillo -->
-    <color name="pulse_elevated">#FFCC00</color>
-    <!-- Taquicardia (> 130 BPM) - Rojo -->
-    <color name="pulse_high">#FF0000</color>
+    <!-- ========== SISTEMA DE ESTADOS ========== -->
 
-    <!-- ========== ACELERACIÓN ========== -->
-    <!-- Quieto (< 1.0g) - Verde -->
-    <color name="acceleration_quiet">#00CC00</color>
-    <!-- Movimiento (1.0-1.5g) - Amarillo -->
-    <color name="acceleration_movement">#FFCC00</color>
-    <!-- Mucho movimiento (> 1.5g) - Rojo -->
-    <color name="acceleration_high">#FF0000</color>
+    <!-- Calidad de Sueño -->
+    <color name="sleep_excellent">#10B981</color>  <!-- Verde brillante -->
+    <color name="sleep_good">#3B82F6</color>       <!-- Azul -->
+    <color name="sleep_fair">#F59E0B</color>       <!-- Ámbar -->
+    <color name="sleep_poor">#EF4444</color>       <!-- Rojo -->
 
-    <!-- ========== LUZ ========== -->
-    <!-- Oscuro (< 30%) - Azul -->
-    <color name="light_dark">#0080FF</color>
-    <!-- Normal (30-70%) - Verde -->
-    <color name="light_normal">#00CC00</color>
-    <!-- Claro (> 70%) - Amarillo -->
-    <color name="light_bright">#FFCC00</color>
+    <!-- Temperatura -->
+    <color name="temp_cold">#3B82F6</color>        <!-- Azul -->
+    <color name="temp_optimal">#10B981</color>     <!-- Verde -->
+    <color name="temp_warm">#F97316</color>        <!-- Naranja -->
+    <color name="temp_hot">#EF4444</color>         <!-- Rojo -->
+
+    <!-- Humedad -->
+    <color name="humidity_dry">#F59E0B</color>     <!-- Ámbar -->
+    <color name="humidity_optimal">#10B981</color> <!-- Verde -->
+    <color name="humidity_wet">#3B82F6</color>     <!-- Azul -->
+
+    <!-- Pulso Cardíaco -->
+    <color name="heart_low">#6366F1</color>        <!-- Índigo -->
+    <color name="heart_optimal">#10B981</color>    <!-- Verde -->
+    <color name="heart_elevated">#F59E0B</color>   <!-- Ámbar -->
+    <color name="heart_high">#EF4444</color>       <!-- Rojo -->
+
+    <!-- Movimiento -->
+    <color name="movement_still">#10B981</color>   <!-- Verde -->
+    <color name="movement_low">#3B82F6</color>     <!-- Azul -->
+    <color name="movement_moderate">#F59E0B</color><!-- Ámbar -->
+    <color name="movement_high">#EF4444</color>    <!-- Rojo -->
+
+    <!-- Luz -->
+    <color name="light_dark">#10B981</color>       <!-- Verde (ideal) -->
+    <color name="light_dim">#3B82F6</color>        <!-- Azul -->
+    <color name="light_moderate">#F59E0B</color>   <!-- Ámbar -->
+    <color name="light_bright">#EF4444</color>     <!-- Rojo -->
 
     <!-- ========== ESTADOS DE CONEXIÓN ========== -->
-    <!-- Conectado - Verde -->
-    <color name="status_connected">#00CC00</color>
-    <!-- Conectando - Amarillo -->
-    <color name="status_connecting">#FFCC00</color>
-    <!-- Desconectado - Rojo -->
-    <color name="status_disconnected">#FF0000</color>
-    <!-- Error - Rojo oscuro -->
-    <color name="status_error">#FF6B6B</color>
+    <color name="status_connected">#10B981</color>    <!-- Verde -->
+    <color name="status_connecting">#F59E0B</color>   <!-- Ámbar -->
+    <color name="status_disconnected">#94A3B8</color> <!-- Gris -->
+    <color name="status_error">#EF4444</color>        <!-- Rojo -->
 
-    <!-- ========== CARD BACKGROUNDS ========== -->
-    <color name="card_background">#FFFFFF</color>
-    <color name="card_border">#E0E0E0</color>
+    <!-- ========== ALARMA ========== -->
+    <color name="alarm_active">#DC2626</color>     <!-- Rojo intenso -->
+    <color name="alarm_inactive">#10B981</color>   <!-- Verde -->
 
-    <!-- ========== HEADER Y FOOTER ========== -->
-    <color name="header_background">#667EEA</color>
-    <color name="header_text">#FFFFFF</color>
-    <color name="footer_background">#F5F5F5</color>
-    <color name="footer_text">#333333</color>
+    <!-- ========== NEUTRALES ========== -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray50">#F9FAFB</color>
+    <color name="gray100">#F3F4F6</color>
+    <color name="gray200">#E5E7EB</color>
+    <color name="gray300">#D1D5DB</color>
+    <color name="gray400">#9CA3AF</color>
+    <color name="gray500">#6B7280</color>
+    <color name="gray600">#4B5563</color>
+    <color name="gray700">#374151</color>
+    <color name="gray800">#1F2937</color>
+    <color name="gray900">#111827</color>
 
-    <!-- ========== COLORES ADICIONALES ========== -->
-    <color name="orange">#FFCC00</color>
-    <color name="red">#FF0000</color>
-    <color name="dark_red">#CC0000</color>
-    <color name="teal">#00CC88</color>
-    <color name="yellow">#FFEB3B</color>
-    <color name="green">#00CC00</color>
-    <color name="blue">#0080FF</color>
+    <!-- ========== DEGRADADOS (para fondos) ========== -->
+    <color name="gradientStart">#1E3A8A</color>    <!-- Azul profundo -->
+    <color name="gradientEnd">#3B82F6</color>      <!-- Azul brillante -->
 
-    <!-- ========== FONDOS ========== -->
-    <color name="background_gradient">#667EEA</color>
+    <!-- ========== COLORES ADICIONALES (retrocompatibilidad) ========== -->
+    <color name="orange">#F97316</color>
+    <color name="red">#EF4444</color>
+    <color name="dark_red">#DC2626</color>
+    <color name="teal">#06B6D4</color>
+    <color name="yellow">#FBBF24</color>
+    <color name="green">#10B981</color>
+    <color name="blue">#3B82F6</color>
 
-    <!-- ========== LEGACY / COMPATIBILIDAD ========== -->
+    <!-- Fondos -->
+    <color name="background_gradient">#1E3A8A</color>
+
+    <!-- Legacy / Compatibilidad -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="gray">#FF666666</color>
+    <color name="gray">#6B7280</color>
+
+    <!-- ========== TRANSPARENCIAS ========== -->
+    <color name="overlay_dark">#80000000</color>   <!-- Negro 50% -->
+    <color name="overlay_light">#80FFFFFF</color>  <!-- Blanco 50% -->
+    <color name="shadow">#1A000000</color>         <!-- Sombra sutil -->
 </resources>
