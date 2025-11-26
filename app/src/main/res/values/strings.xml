@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sleep Tracker</string>
+
+    <!-- Activity Main -->
+    <string name="connecting">Conectando...</string>
+    <string name="connected">✓ Conectado a Firebase</string>
+    <string name="disconnected">✗ Desconectado</string>
+    <string name="error">✗ Error de conexión</string>
+
+    <!-- Sensores -->
+    <string name="temperatura">Temperatura</string>
+    <string name="humedad">Humedad</string>
+    <string name="pulso">Pulso</string>
+    <string name="aceleracion">Aceleración</string>
+    <string name="luz">Luz</string>
+
+    <!-- Unidades -->
+    <string name="celsius">°C</string>
+    <string name="percent">%</string>
+    <string name="bpm">BPM</string>
+    <string name="gravity">g</string>
+
+    <!-- Estados -->
+    <string name="esperando_datos">Esperando datos...</string>
+    <string name="ultima_actualizacion">Última actualización: </string>
+    <string name="titulo">Sleep Tracker</string>
+</resources>

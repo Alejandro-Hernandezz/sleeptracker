@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ========== COLORES PRIMARIOS ========== -->
+    <color name="primary_color">#667EEA</color>
+    <color name="primary_dark">#5568D3</color>
+    <color name="accent_color">#FF6B6B</color>
+
+    <!-- ========== COLORES NEUTROS ========== -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="light_gray">#F5F5F5</color>
+    <color name="dark_gray">#333333</color>
+    <color name="medium_gray">#999999</color>
+
+    <!-- ========== TEMPERATURA ========== -->
+    <!-- Frío (< 18°C) - Azul -->
+    <color name="temp_cold">#0080FF</color>
+    <!-- Normal (18-25°C) - Verde -->
+    <color name="temp_normal">#00CC00</color>
+    <!-- Caliente (> 25°C) - Rojo -->
+    <color name="temp_hot">#FF0000</color>
+
+    <!-- ========== HUMEDAD ========== -->
+    <!-- Seco (< 30%) - Rojo -->
+    <color name="humidity_dry">#FF0000</color>
+    <!-- Normal (30-70%) - Verde -->
+    <color name="humidity_normal">#00CC00</color>
+    <!-- Húmedo (> 70%) - Azul -->
+    <color name="humidity_wet">#0080FF</color>
+
+    <!-- ========== PULSO CARDÍACO ========== -->
+    <!-- Bradicardia (< 60 BPM) - Azul -->
+    <color name="pulse_low">#0080FF</color>
+    <!-- Normal (60-100 BPM) - Verde -->
+    <color name="pulse_normal">#00CC00</color>
+    <!-- Elevado (100-130 BPM) - Amarillo -->
+    <color name="pulse_elevated">#FFCC00</color>
+    <!-- Taquicardia (> 130 BPM) - Rojo -->
+    <color name="pulse_high">#FF0000</color>
+
+    <!-- ========== ACELERACIÓN ========== -->
+    <!-- Quieto (< 1.0g) - Verde -->
+    <color name="acceleration_quiet">#00CC00</color>
+    <!-- Movimiento (1.0-1.5g) - Amarillo -->
+    <color name="acceleration_movement">#FFCC00</color>
+    <!-- Mucho movimiento (> 1.5g) - Rojo -->
+    <color name="acceleration_high">#FF0000</color>
+
+    <!-- ========== LUZ ========== -->
+    <!-- Oscuro (< 30%) - Azul -->
+    <color name="light_dark">#0080FF</color>
+    <!-- Normal (30-70%) - Verde -->
+    <color name="light_normal">#00CC00</color>
+    <!-- Claro (> 70%) - Amarillo -->
+    <color name="light_bright">#FFCC00</color>
+
+    <!-- ========== ESTADOS DE CONEXIÓN ========== -->
+    <!-- Conectado - Verde -->
+    <color name="status_connected">#00CC00</color>
+    <!-- Conectando - Amarillo -->
+    <color name="status_connecting">#FFCC00</color>
+    <!-- Desconectado - Rojo -->
+    <color name="status_disconnected">#FF0000</color>
+    <!-- Error - Rojo oscuro -->
+    <color name="status_error">#FF6B6B</color>
+
+    <!-- ========== CARD BACKGROUNDS ========== -->
+    <color name="card_background">#FFFFFF</color>
+    <color name="card_border">#E0E0E0</color>
+
+    <!-- ========== HEADER Y FOOTER ========== -->
+    <color name="header_background">#667EEA</color>
+    <color name="header_text">#FFFFFF</color>
+    <color name="footer_background">#F5F5F5</color>
+    <color name="footer_text">#333333</color>
+
+    <!-- ========== LEGACY / COMPATIBILIDAD ========== -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="gray">#FF666666</color>
+</resources>
