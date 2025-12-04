@@ -61,7 +61,7 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.6.2")
 
     // Kotlin
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.25")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
