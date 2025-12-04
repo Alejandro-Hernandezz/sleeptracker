@@ -121,22 +121,27 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val temp = snapshot.getValue(Double::class.java)
-                        if (temp != null) {
-                            temperatura = temp.toFloat()
+                        // Intentar leer como Number (soporta Long y Double)
+                        val value = snapshot.getValue(Number::class.java)
+                        if (value != null) {
+                            temperatura = value.toFloat()
                             updateTemperatureUI()
                             updateLastUpdate()
                             analyzeSleepQuality()
-                            Log.d(TAG, "Temperatura actualizada: $temperatura°C")
+                            Log.d(TAG, "Temperatura actualizada: $temperatura°C (raw: $value)")
+                        } else {
+                            Log.w(TAG, "Temperatura es null")
                         }
+                    } else {
+                        Log.w(TAG, "Nodo temperatura no existe")
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Error leyendo temperatura", e)
+                    Log.e(TAG, "Error leyendo temperatura: ${snapshot.value}", e)
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e(TAG, "Error de base de datos: ${error.message}")
+                Log.e(TAG, "Error de base de datos temperatura: ${error.message}")
             }
         })
 
@@ -145,22 +150,26 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val hum = snapshot.getValue(Double::class.java)
-                        if (hum != null) {
-                            humedad = hum.toFloat()
+                        val value = snapshot.getValue(Number::class.java)
+                        if (value != null) {
+                            humedad = value.toFloat()
                             updateHumidityUI()
                             updateLastUpdate()
                             analyzeSleepQuality()
-                            Log.d(TAG, "Humedad actualizada: $humedad%")
+                            Log.d(TAG, "Humedad actualizada: $humedad% (raw: $value)")
+                        } else {
+                            Log.w(TAG, "Humedad es null")
                         }
+                    } else {
+                        Log.w(TAG, "Nodo humedad no existe")
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Error leyendo humedad", e)
+                    Log.e(TAG, "Error leyendo humedad: ${snapshot.value}", e)
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e(TAG, "Error de base de datos: ${error.message}")
+                Log.e(TAG, "Error de base de datos humedad: ${error.message}")
             }
         })
 
@@ -169,22 +178,26 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val bpm = snapshot.getValue(Long::class.java)
-                        if (bpm != null) {
-                            pulso = bpm.toInt()
+                        val value = snapshot.getValue(Number::class.java)
+                        if (value != null) {
+                            pulso = value.toInt()
                             updatePulseUI()
                             updateLastUpdate()
                             analyzeSleepQuality()
-                            Log.d(TAG, "Pulso actualizado: $pulso BPM")
+                            Log.d(TAG, "Pulso actualizado: $pulso BPM (raw: $value)")
+                        } else {
+                            Log.w(TAG, "Pulso es null")
                         }
+                    } else {
+                        Log.w(TAG, "Nodo pulso no existe")
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Error leyendo pulso", e)
+                    Log.e(TAG, "Error leyendo pulso: ${snapshot.value}", e)
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e(TAG, "Error de base de datos: ${error.message}")
+                Log.e(TAG, "Error de base de datos pulso: ${error.message}")
             }
         })
 
@@ -193,22 +206,26 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val acel = snapshot.getValue(Double::class.java)
-                        if (acel != null) {
-                            aceleracion = acel.toFloat()
+                        val value = snapshot.getValue(Number::class.java)
+                        if (value != null) {
+                            aceleracion = value.toFloat()
                             updateAccelerationUI()
                             updateLastUpdate()
                             analyzeSleepQuality()
-                            Log.d(TAG, "Aceleración actualizada: $aceleracion g")
+                            Log.d(TAG, "Aceleración actualizada: $aceleracion g (raw: $value)")
+                        } else {
+                            Log.w(TAG, "Aceleración es null")
                         }
+                    } else {
+                        Log.w(TAG, "Nodo aceleracion no existe")
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Error leyendo aceleración", e)
+                    Log.e(TAG, "Error leyendo aceleración: ${snapshot.value}", e)
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e(TAG, "Error de base de datos: ${error.message}")
+                Log.e(TAG, "Error de base de datos aceleracion: ${error.message}")
             }
         })
 
@@ -217,22 +234,26 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val luzValue = snapshot.getValue(Long::class.java)
-                        if (luzValue != null) {
-                            luz = luzValue.toInt()
+                        val value = snapshot.getValue(Number::class.java)
+                        if (value != null) {
+                            luz = value.toInt()
                             updateLightUI()
                             updateLastUpdate()
                             analyzeSleepQuality()
-                            Log.d(TAG, "Luz actualizada: $luz%")
+                            Log.d(TAG, "Luz actualizada: $luz% (raw: $value)")
+                        } else {
+                            Log.w(TAG, "Luz es null")
                         }
+                    } else {
+                        Log.w(TAG, "Nodo luz no existe")
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Error leyendo luz", e)
+                    Log.e(TAG, "Error leyendo luz: ${snapshot.value}", e)
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e(TAG, "Error de base de datos: ${error.message}")
+                Log.e(TAG, "Error de base de datos luz: ${error.message}")
             }
         })
     }
