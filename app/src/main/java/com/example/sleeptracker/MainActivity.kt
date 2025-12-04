@@ -121,12 +121,13 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val temp = snapshot.child("valor").getValue(Double::class.java)
+                        val temp = snapshot.getValue(Double::class.java)
                         if (temp != null) {
                             temperatura = temp.toFloat()
                             updateTemperatureUI()
                             updateLastUpdate()
                             analyzeSleepQuality()
+                            Log.d(TAG, "Temperatura actualizada: $temperatura°C")
                         }
                     }
                 } catch (e: Exception) {
@@ -144,12 +145,13 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val hum = snapshot.child("valor").getValue(Double::class.java)
+                        val hum = snapshot.getValue(Double::class.java)
                         if (hum != null) {
                             humedad = hum.toFloat()
                             updateHumidityUI()
                             updateLastUpdate()
                             analyzeSleepQuality()
+                            Log.d(TAG, "Humedad actualizada: $humedad%")
                         }
                     }
                 } catch (e: Exception) {
@@ -167,12 +169,13 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val bpm = snapshot.child("valor").getValue(Long::class.java)
+                        val bpm = snapshot.getValue(Long::class.java)
                         if (bpm != null) {
                             pulso = bpm.toInt()
                             updatePulseUI()
                             updateLastUpdate()
                             analyzeSleepQuality()
+                            Log.d(TAG, "Pulso actualizado: $pulso BPM")
                         }
                     }
                 } catch (e: Exception) {
@@ -190,12 +193,13 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val acel = snapshot.child("valor").getValue(Double::class.java)
+                        val acel = snapshot.getValue(Double::class.java)
                         if (acel != null) {
                             aceleracion = acel.toFloat()
                             updateAccelerationUI()
                             updateLastUpdate()
                             analyzeSleepQuality()
+                            Log.d(TAG, "Aceleración actualizada: $aceleracion g")
                         }
                     }
                 } catch (e: Exception) {
@@ -213,12 +217,13 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val luzValue = snapshot.child("valor").getValue(Long::class.java)
+                        val luzValue = snapshot.getValue(Long::class.java)
                         if (luzValue != null) {
                             luz = luzValue.toInt()
                             updateLightUI()
                             updateLastUpdate()
                             analyzeSleepQuality()
+                            Log.d(TAG, "Luz actualizada: $luz%")
                         }
                     }
                 } catch (e: Exception) {
@@ -370,8 +375,11 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        alarmaActiva = snapshot.getValue(Boolean::class.java) ?: false
+                        // Firebase guarda la alarma como número (0 o 1)
+                        val alarmaValue = snapshot.getValue(Long::class.java) ?: 0L
+                        alarmaActiva = alarmaValue != 0L
                         updateAlarmUI()
+                        Log.d(TAG, "Estado de alarma: ${if (alarmaActiva) "ACTIVA" else "INACTIVA"}")
                     }
                 } catch (e: Exception) {
                     Log.e(TAG, "Error leyendo estado de alarma", e)
@@ -387,10 +395,11 @@ class MainActivity : AppCompatActivity() {
     private fun toggleAlarma() {
         alarmaActiva = !alarmaActiva
 
-        // Enviar nuevo estado a Firebase
-        refControl.child("alarma").setValue(alarmaActiva)
+        // Enviar nuevo estado a Firebase como número (0 o 1)
+        val valorAlarma = if (alarmaActiva) 1 else 0
+        refControl.child("alarma").setValue(valorAlarma)
             .addOnSuccessListener {
-                Log.d(TAG, "Estado de alarma actualizado: $alarmaActiva")
+                Log.d(TAG, "Estado de alarma actualizado: $alarmaActiva (valor: $valorAlarma)")
                 updateAlarmUI()
             }
             .addOnFailureListener { e ->
