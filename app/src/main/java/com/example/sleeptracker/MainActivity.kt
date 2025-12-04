@@ -97,6 +97,28 @@ class MainActivity : AppCompatActivity() {
             // Referencia a la carpeta "control" para controlar actuadores
             refControl = firebaseDatabase.getReference("sleep_tracker/control")
 
+            Log.d(TAG, "Referencias Firebase configuradas:")
+            Log.d(TAG, "  - ultimos: ${refUltimos.path}")
+            Log.d(TAG, "  - control: ${refControl.path}")
+
+            // Listener de prueba para ver toda la estructura
+            firebaseDatabase.getReference("sleep_tracker").addListenerForSingleValueEvent(
+                object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        Log.d(TAG, "Estructura completa de sleep_tracker:")
+                        Log.d(TAG, "  Existe: ${snapshot.exists()}")
+                        Log.d(TAG, "  Children: ${snapshot.childrenCount}")
+                        snapshot.children.forEach { child ->
+                            Log.d(TAG, "    - ${child.key}: ${child.value}")
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.e(TAG, "Error leyendo estructura: ${error.message}")
+                    }
+                }
+            )
+
             // Escuchar cambios en tiempo real
             setupListeners()
 
@@ -396,14 +418,28 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        // Firebase guarda la alarma como número (0 o 1)
-                        val alarmaValue = snapshot.getValue(Long::class.java) ?: 0L
-                        alarmaActiva = alarmaValue != 0L
+                        Log.d(TAG, "Alarma raw value: ${snapshot.value}, type: ${snapshot.value?.javaClass?.simpleName}")
+
+                        // Firebase puede guardar la alarma como Boolean o como número
+                        alarmaActiva = when (val value = snapshot.value) {
+                            is Boolean -> value
+                            is Long -> value != 0L
+                            is Int -> value != 0
+                            is Number -> value.toInt() != 0
+                            is String -> value.equals("true", ignoreCase = true) || value == "1"
+                            else -> {
+                                Log.w(TAG, "Tipo de alarma desconocido: ${value?.javaClass?.simpleName}")
+                                false
+                            }
+                        }
+
                         updateAlarmUI()
                         Log.d(TAG, "Estado de alarma: ${if (alarmaActiva) "ACTIVA" else "INACTIVA"}")
+                    } else {
+                        Log.w(TAG, "Nodo alarma no existe")
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Error leyendo estado de alarma", e)
+                    Log.e(TAG, "Error leyendo estado de alarma: ${snapshot.value}", e)
                 }
             }
 
