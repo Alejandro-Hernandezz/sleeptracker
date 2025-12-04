@@ -102,24 +102,40 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "  - control: ${refControl.path}")
 
             // Listener de prueba para ver toda la estructura
-            firebaseDatabase.getReference("sleep_tracker").addListenerForSingleValueEvent(
+            Log.d(TAG, "Registrando listener de estructura en: sleep_tracker")
+            firebaseDatabase.getReference("sleep_tracker").addValueEventListener(
                 object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        Log.d(TAG, "Estructura completa de sleep_tracker:")
+                        Log.d(TAG, "=== ESTRUCTURA COMPLETA DE sleep_tracker ===")
                         Log.d(TAG, "  Existe: ${snapshot.exists()}")
                         Log.d(TAG, "  Children: ${snapshot.childrenCount}")
-                        snapshot.children.forEach { child ->
-                            Log.d(TAG, "    - ${child.key}: ${child.value}")
+                        if (snapshot.exists()) {
+                            snapshot.children.forEach { child ->
+                                Log.d(TAG, "    - ${child.key}:")
+                                if (child.hasChildren()) {
+                                    child.children.forEach { subchild ->
+                                        Log.d(TAG, "        * ${subchild.key} = ${subchild.value}")
+                                    }
+                                } else {
+                                    Log.d(TAG, "        ${child.value}")
+                                }
+                            }
+                        } else {
+                            Log.w(TAG, "  ¡El nodo sleep_tracker NO EXISTE en Firebase!")
                         }
+                        Log.d(TAG, "===========================================")
                     }
 
                     override fun onCancelled(error: DatabaseError) {
                         Log.e(TAG, "Error leyendo estructura: ${error.message}")
+                        Log.e(TAG, "  Código: ${error.code}")
+                        Log.e(TAG, "  Detalles: ${error.details}")
                     }
                 }
             )
 
             // Escuchar cambios en tiempo real
+            Log.d(TAG, "Configurando listeners de sensores...")
             setupListeners()
 
             // Escuchar estado de alarma
@@ -138,7 +154,10 @@ class MainActivity : AppCompatActivity() {
      * Configurar listeners para cada sensor
      */
     private fun setupListeners() {
+        Log.d(TAG, "setupListeners() - Iniciando configuración de listeners...")
+
         // Escuchar Temperatura
+        Log.d(TAG, "Registrando listener para: sleep_tracker/ultimos/temperatura")
         refUltimos.child("temperatura").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
