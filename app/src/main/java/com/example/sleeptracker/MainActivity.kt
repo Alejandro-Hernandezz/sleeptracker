@@ -162,17 +162,23 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        // Intentar leer como Number (soporta Long y Double)
-                        val value = snapshot.getValue(Number::class.java)
-                        if (value != null) {
-                            temperatura = value.toFloat()
-                            updateTemperatureUI()
-                            updateLastUpdate()
-                            analyzeSleepQuality()
-                            Log.d(TAG, "Temperatura actualizada: $temperatura°C (raw: $value)")
-                        } else {
-                            Log.w(TAG, "Temperatura es null")
+                        // Leer valor directamente y convertir
+                        val value = snapshot.value
+                        temperatura = when (value) {
+                            is Double -> value.toFloat()
+                            is Long -> value.toFloat()
+                            is Int -> value.toFloat()
+                            is Float -> value
+                            is String -> value.toFloatOrNull() ?: 0f
+                            else -> {
+                                Log.w(TAG, "Tipo de temperatura desconocido: ${value?.javaClass?.simpleName}")
+                                0f
+                            }
                         }
+                        updateTemperatureUI()
+                        updateLastUpdate()
+                        analyzeSleepQuality()
+                        Log.d(TAG, "Temperatura actualizada: $temperatura°C (raw: $value, type: ${value?.javaClass?.simpleName})")
                     } else {
                         Log.w(TAG, "Nodo temperatura no existe")
                     }
@@ -191,16 +197,22 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val value = snapshot.getValue(Number::class.java)
-                        if (value != null) {
-                            humedad = value.toFloat()
-                            updateHumidityUI()
-                            updateLastUpdate()
-                            analyzeSleepQuality()
-                            Log.d(TAG, "Humedad actualizada: $humedad% (raw: $value)")
-                        } else {
-                            Log.w(TAG, "Humedad es null")
+                        val value = snapshot.value
+                        humedad = when (value) {
+                            is Double -> value.toFloat()
+                            is Long -> value.toFloat()
+                            is Int -> value.toFloat()
+                            is Float -> value
+                            is String -> value.toFloatOrNull() ?: 0f
+                            else -> {
+                                Log.w(TAG, "Tipo de humedad desconocido: ${value?.javaClass?.simpleName}")
+                                0f
+                            }
                         }
+                        updateHumidityUI()
+                        updateLastUpdate()
+                        analyzeSleepQuality()
+                        Log.d(TAG, "Humedad actualizada: $humedad% (raw: $value, type: ${value?.javaClass?.simpleName})")
                     } else {
                         Log.w(TAG, "Nodo humedad no existe")
                     }
@@ -219,16 +231,22 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val value = snapshot.getValue(Number::class.java)
-                        if (value != null) {
-                            pulso = value.toInt()
-                            updatePulseUI()
-                            updateLastUpdate()
-                            analyzeSleepQuality()
-                            Log.d(TAG, "Pulso actualizado: $pulso BPM (raw: $value)")
-                        } else {
-                            Log.w(TAG, "Pulso es null")
+                        val value = snapshot.value
+                        pulso = when (value) {
+                            is Long -> value.toInt()
+                            is Int -> value
+                            is Double -> value.toInt()
+                            is Float -> value.toInt()
+                            is String -> value.toIntOrNull() ?: 0
+                            else -> {
+                                Log.w(TAG, "Tipo de pulso desconocido: ${value?.javaClass?.simpleName}")
+                                0
+                            }
                         }
+                        updatePulseUI()
+                        updateLastUpdate()
+                        analyzeSleepQuality()
+                        Log.d(TAG, "Pulso actualizado: $pulso BPM (raw: $value, type: ${value?.javaClass?.simpleName})")
                     } else {
                         Log.w(TAG, "Nodo pulso no existe")
                     }
@@ -247,16 +265,22 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val value = snapshot.getValue(Number::class.java)
-                        if (value != null) {
-                            aceleracion = value.toFloat()
-                            updateAccelerationUI()
-                            updateLastUpdate()
-                            analyzeSleepQuality()
-                            Log.d(TAG, "Aceleración actualizada: $aceleracion g (raw: $value)")
-                        } else {
-                            Log.w(TAG, "Aceleración es null")
+                        val value = snapshot.value
+                        aceleracion = when (value) {
+                            is Double -> value.toFloat()
+                            is Long -> value.toFloat()
+                            is Int -> value.toFloat()
+                            is Float -> value
+                            is String -> value.toFloatOrNull() ?: 0f
+                            else -> {
+                                Log.w(TAG, "Tipo de aceleración desconocido: ${value?.javaClass?.simpleName}")
+                                0f
+                            }
                         }
+                        updateAccelerationUI()
+                        updateLastUpdate()
+                        analyzeSleepQuality()
+                        Log.d(TAG, "Aceleración actualizada: $aceleracion g (raw: $value, type: ${value?.javaClass?.simpleName})")
                     } else {
                         Log.w(TAG, "Nodo aceleracion no existe")
                     }
@@ -275,16 +299,22 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val value = snapshot.getValue(Number::class.java)
-                        if (value != null) {
-                            luz = value.toInt()
-                            updateLightUI()
-                            updateLastUpdate()
-                            analyzeSleepQuality()
-                            Log.d(TAG, "Luz actualizada: $luz% (raw: $value)")
-                        } else {
-                            Log.w(TAG, "Luz es null")
+                        val value = snapshot.value
+                        luz = when (value) {
+                            is Long -> value.toInt()
+                            is Int -> value
+                            is Double -> value.toInt()
+                            is Float -> value.toInt()
+                            is String -> value.toIntOrNull() ?: 0
+                            else -> {
+                                Log.w(TAG, "Tipo de luz desconocido: ${value?.javaClass?.simpleName}")
+                                0
+                            }
                         }
+                        updateLightUI()
+                        updateLastUpdate()
+                        analyzeSleepQuality()
+                        Log.d(TAG, "Luz actualizada: $luz% (raw: $value, type: ${value?.javaClass?.simpleName})")
                     } else {
                         Log.w(TAG, "Nodo luz no existe")
                     }
